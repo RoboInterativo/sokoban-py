@@ -19,6 +19,7 @@ size = width, height = 640, 480
 black = 255, 255, 255
 
 screen = pygame.display.set_mode(size)
+
 screen.fill(black)
 wall = pygame.image.load("img/wall.png")
 back= pygame.image.load("img/empty.png")
@@ -30,6 +31,32 @@ backrect = back.get_rect()
 boxrect = box.get_rect()
 placerect = place.get_rect()
 manrect = man.get_rect()
+
+class Box(object):
+    def move_left(self):
+        # if map[self.y-1][self.x-1-1]==4:
+        #     pass
+        # else:
+        # self.erase_draw()
+        self.x=self.x-1
+        print(self.x)
+        self.draw()
+
+    def draw(self):
+        x_coord=26*(self.x-1)
+        y_coord=26*(self.y-1)
+
+        self.boxrect.left=x_coord
+        self.boxrect.top=y_coord
+        screen.blit(self.box, self.boxrect)
+
+    def __init__(self, box,x,y):
+        # super(, self).__init__()
+        self.box=box
+        self.boxrect=box.get_rect()
+        #self.boxrect =
+        self.x=  x
+        self.y = y
 
 class Man(object):
     def erase_draw(self):
@@ -59,6 +86,19 @@ class Man(object):
         screen.blit(self.man, self.manrect)
 
     def move_left(self):
+        for item in boxes:
+            if item.x==self.x-1:
+                if item.y==self.y:
+                    allow_move=True
+                    for item2 in boxes:
+                        if item2.y==item.y:
+                            if item.x==item2.x-1:
+                                allow_move=False
+                    if allow_move:
+                        item.move_left()
+
+
+
         if map[self.y-1][self.x-1-1]==4:
             pass
         else:
@@ -109,7 +149,7 @@ x=0
 y=0
 
 
-
+boxes=[]
 for row in map:
 
     x=0
@@ -125,9 +165,12 @@ for row in map:
             wallrect.left=x_coord
             screen.blit(wall, wallrect)
         if col==1:
-            boxrect.top=y_coord
-            boxrect.left=x_coord
-            screen.blit(box, boxrect)
+            box2=Box(box,x,y)
+            box2.draw()
+            boxes.append(box2)
+            # boxrect.top=y_coord
+            # boxrect.left=x_coord
+            # screen.blit(box, boxrect)
         if col==3:
             placerect.top=y_coord
             placerect.left=x_coord
