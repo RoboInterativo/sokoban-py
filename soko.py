@@ -109,9 +109,12 @@ class Man(object):
                         if item2.y==item.y:
                             if item2.x==self.x-1-1:
                                 allow_move=False
-                    if allow_move:
-                        index=boxes.index(item)
-                        boxes[index].move_left()
+                    if map[self.y-1][self.x-1-1-1] !=4:
+                        if allow_move:
+                            index=boxes.index(item)
+                            boxes[index].move_left()
+                    else:
+                        allow_move=False
 
         if map[self.y-1][self.x-1-1] != 4:
             if allow_move:
@@ -129,9 +132,13 @@ class Man(object):
                         if item2.y==item.y:
                             if item2.x==self.x+1+1:
                                 allow_move=False
-                    if allow_move:
-                        index=boxes.index(item)
-                        boxes[index].move_right()
+                    if map[self.y-1][self.x-1+1+1] !=4:
+                        if allow_move:
+                            index=boxes.index(item)
+                            boxes[index].move_right()
+                    else:
+                        allow_move=False
+
         if map[self.y-1][self.x-1+1] !=4:
             if allow_move:
                 self.erase_draw()
@@ -145,13 +152,16 @@ class Man(object):
             if item.x==self.x:
                 if item.y==self.y-1:
                     for item2 in boxes:
-                        if item2.x==item.x:
+                        if item2.x==self.x:
                             if item2.y==self.y-1-1:
 
                                 allow_move=False
-                    if allow_move:
-                        index=boxes.index(item)
-                        boxes[index].move_up()
+                    if map[self.y-1-1-1][self.x-1] !=4:
+                        if allow_move:
+                            index=boxes.index(item)
+                            boxes[index].move_up()
+                    else:
+                        allow_move=False
 
         if map[self.y-1-1][self.x-1] !=4:
             if allow_move:
@@ -170,9 +180,12 @@ class Man(object):
                             if item2.y==self.y+1+1:
 
                                 allow_move=False
-                    if allow_move:
-                        index=boxes.index(item)
-                        boxes[index].move_up()
+                    if map[self.y-1+1+1][self.x-1] !=4:
+                        if allow_move:
+                            index=boxes.index(item)
+                            boxes[index].move_down()
+                    else:
+                        allow_move=False
 
         if map[self.y-1+1][self.x-1] !=4:
             if allow_move:
