@@ -42,6 +42,21 @@ class Box(object):
         print(self.x)
         self.draw()
 
+    def move_up(self):
+        self.y=self.y-1
+        print(self.y)
+        self.draw()
+
+    def move_right(self):
+        self.x=self.x+1
+        print(self.x)
+        self.draw()
+
+    def move_down(self):
+        self.y=self.y+1
+        print(self.y)
+        self.draw()
+
     def draw(self):
         x_coord=26*(self.x-1)
         y_coord=26*(self.y-1)
@@ -86,10 +101,10 @@ class Man(object):
         screen.blit(self.man, self.manrect)
 
     def move_left(self):
+        allow_move = True
         for item in boxes:
             if item.x==self.x-1:
                 if item.y==self.y:
-                    allow_move=True
                     for item2 in boxes:
                         if item2.y==item.y:
                             if item.x==item2.x-1:
@@ -97,15 +112,12 @@ class Man(object):
                     if allow_move:
                         item.move_left()
 
-
-
-        if map[self.y-1][self.x-1-1]==4:
-            pass
-        else:
-            self.erase_draw()
-            self.x=self.x-1
-            print(self.x)
-            self.draw()
+        if map[self.y-1][self.x-1-1] != 4:
+            if allow_move:
+                self.erase_draw()
+                self.x=self.x-1
+                print(self.x)
+                self.draw()
 
     def move_right(self):
         if map[self.y-1][self.x-1+1]==4:
@@ -117,6 +129,17 @@ class Man(object):
             self.draw()
 
     def move_up(self):
+        allow_move = True
+        for item in boxes:
+            if item.x==self.x:
+                if item.y==self.y-1:
+                    for item2 in boxes:
+                        if item2.y==item.y-1:
+                            if item.x==item2.x:
+                                allow_move=False
+                    if allow_move:
+                        item.move_up()
+
         if map[self.y-1-1][self.x-1]==4:
             pass
         else:
