@@ -121,13 +121,23 @@ class Man(object):
                 self.draw()
 
     def move_right(self):
-        if map[self.y-1][self.x-1+1]==4:
-            pass
-        else:
-            self.erase_draw()
-            self.x=self.x+1
-            print(self.x)
-            self.draw()
+        allow_move = True
+        for item in boxes:
+            if item.x==self.x+1:
+                if item.y==self.y:
+                    for item2 in boxes:
+                        if item2.y==item.y:
+                            if item2.x==self.x+1+1:
+                                allow_move=False
+                    if allow_move:
+                        index=boxes.index(item)
+                        boxes[index].move_right()
+        if map[self.y-1][self.x-1+1] !=4:
+            if allow_move:
+                self.erase_draw()
+                self.x=self.x+1
+                print(self.x)
+                self.draw()
 
     def move_up(self):
         allow_move = True
@@ -135,29 +145,41 @@ class Man(object):
             if item.x==self.x:
                 if item.y==self.y-1:
                     for item2 in boxes:
-                        if item2.y==item.y-1:
-                            if item.x==item2.x:
+                        if item2.x==item.x:
+                            if item2.y==self.y-1-1:
+
                                 allow_move=False
                     if allow_move:
                         index=boxes.index(item)
                         boxes[index].move_up()
 
-        if map[self.y-1-1][self.x-1]==4:
-            pass
-        else:
-            self.erase_draw()
-            self.y=self.y-1
-            print(self.y)
-            self.draw()
+        if map[self.y-1-1][self.x-1] !=4:
+            if allow_move:
+                self.erase_draw()
+                self.y=self.y-1
+                print(self.y)
+                self.draw()
 
     def move_down(self):
-        if map[self.y-1+1][self.x-1]==4:
-            pass
-        else:
-            self.erase_draw()
-            self.y=self.y+1
-            print(self.y)
-            self.draw()
+        allow_move = True
+        for item in boxes:
+            if item.x==self.x:
+                if item.y==self.y+1:
+                    for item2 in boxes:
+                        if item2.x==item.x:
+                            if item2.y==self.y+1+1:
+
+                                allow_move=False
+                    if allow_move:
+                        index=boxes.index(item)
+                        boxes[index].move_up()
+
+        if map[self.y-1+1][self.x-1] !=4:
+            if allow_move:
+                self.erase_draw()
+                self.y=self.y+1
+                print(self.y)
+                self.draw()
 
     def __init__(self, man,x,y):
         # super(, self).__init__()
