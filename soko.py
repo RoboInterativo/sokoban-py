@@ -13,10 +13,13 @@ for line in mapf:
 
 
 pygame.init()
+pygame.font.init()
 #
 size = width, height = 640, 480
 # # speed = [1, 1]
 black = 255, 255, 255
+moves=0
+pushes=0
 
 screen = pygame.display.set_mode(size)
 
@@ -34,6 +37,7 @@ manrect = man.get_rect()
 
 class Box(object):
     def move_left(self):
+        pushes +=1
         # if map[self.y-1][self.x-1-1]==4:
         #     pass
         # else:
@@ -46,16 +50,19 @@ class Box(object):
         self.y=self.y-1
         print(self.y)
         self.draw()
+        pushes +=1
 
     def move_right(self):
         self.x=self.x+1
         print(self.x)
         self.draw()
+        pushes +=1
 
     def move_down(self):
         self.y=self.y+1
         print(self.y)
         self.draw()
+        pushes +=1
 
     def draw(self):
         x_coord=26*(self.x-1)
@@ -106,6 +113,7 @@ class Man(object):
         screen.blit(self.man, self.manrect)
 
     def move_left(self):
+
         allow_move = True
         for item in boxes:
             if item.x==self.x-1:
@@ -123,12 +131,14 @@ class Man(object):
 
         if map[self.y-1][self.x-1-1] != 4:
             if allow_move:
+                stats['moves'] = stats['moves']+1
                 self.erase_draw()
                 self.x=self.x-1
                 print(self.x)
                 self.draw()
 
     def move_right(self):
+
         allow_move = True
         for item in boxes:
             if item.x==self.x+1:
@@ -139,6 +149,7 @@ class Man(object):
                                 allow_move=False
                     if map[self.y-1][self.x-1+1+1] !=4:
                         if allow_move:
+                            moves =moves+1
                             index=boxes.index(item)
                             boxes[index].move_right()
                     else:
@@ -170,6 +181,7 @@ class Man(object):
 
         if map[self.y-1-1][self.x-1] !=4:
             if allow_move:
+                stats['moves'] = stats['moves']+1
                 self.erase_draw()
                 self.y=self.y-1
                 print(self.y)
@@ -194,6 +206,7 @@ class Man(object):
 
         if map[self.y-1+1][self.x-1] !=4:
             if allow_move:
+                stats['moves'] = stats['moves']+1
                 self.erase_draw()
                 self.y=self.y+1
                 print(self.y)
@@ -216,6 +229,8 @@ y=0
 
 boxes=[]
 places=[]
+stats={'moves':0,pushes:0}
+
 for row in map:
 
     x=0
@@ -261,7 +276,7 @@ for row in map:
 
 pygame.display.flip()
 
-def check():
+def check_boxes():
     counter=len(places)
     count=0
     for item2 in places:
@@ -269,9 +284,14 @@ def check():
             if item.x==item2.x:
                 if item.y==item2.y:
                     count +=1
-    return count==counter            
+    print ("count=",count,counter)
+    return count==counter
 
 
+
+
+
+f1=pygame.font.SysFont('arial', 12)
 
 
 while 1:
@@ -290,6 +310,19 @@ while 1:
             if event.key == pygame.K_DOWN:
                 man2.move_down()
                 pygame.display.flip()
+            check_boxes()
+
+            rect=pygame.Rect(0, 0, 20, 100)
+            pygame.draw.rect(screen, black, rect)
+            pygame.display.flip()
+            
+
+            text1 = f1.render("MOVES: {}".format(stats.get('moves')), False,
+                              (1, 1, 1))
+            screen.blit(text1, (0, 0))
+            pygame.display.flip()
+                # print ("you win")
+                # sys.exit()
 
 #     ballrect = ballrect.move(speed)
 #     if ballrect.left < 0 or ballrect.right > width:
