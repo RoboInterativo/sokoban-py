@@ -107,7 +107,7 @@ class Man(object):
                 if item.y==self.y:
                     for item2 in boxes:
                         if item2.y==item.y:
-                            if item.x==item2.x-1:
+                            if item2.x==self.x-1-1:
                                 allow_move=False
                     if allow_move:
                         index=boxes.index(item)
