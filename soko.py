@@ -72,6 +72,11 @@ class Box(object):
         #self.boxrect =
         self.x=  x
         self.y = y
+class Place(object):
+    def __init__(self,x,y):
+        # super(, self).__init__()
+        self.x=  x
+        self.y = y
 
 class Man(object):
     def erase_draw(self):
@@ -210,6 +215,7 @@ y=0
 
 
 boxes=[]
+places=[]
 for row in map:
 
     x=0
@@ -235,6 +241,7 @@ for row in map:
             placerect.top=y_coord
             placerect.left=x_coord
             screen.blit(place, placerect)
+            places.append(Place(x,y))
         if col==2:
             man2=Man(man,x,y)
             man2.draw()
@@ -254,6 +261,17 @@ for row in map:
 
 pygame.display.flip()
 
+def check():
+    counter=len(places)
+    count=0
+    for item2 in places:
+        for item in boxes:
+            if item.x==item2.x:
+                if item.y==item2.y:
+                    count +=1
+    return count==counter            
+
+
 
 
 while 1:
@@ -272,6 +290,7 @@ while 1:
             if event.key == pygame.K_DOWN:
                 man2.move_down()
                 pygame.display.flip()
+
 #     ballrect = ballrect.move(speed)
 #     if ballrect.left < 0 or ballrect.right > width:
 #         speed[0] = -speed[0]
